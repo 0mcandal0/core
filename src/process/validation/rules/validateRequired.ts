@@ -57,12 +57,9 @@ const valueIsPresent = (
   // Evaluate for empty array
   else if (Array.isArray(value) && value.length === 0) {
     return false;
-  } // Evaluate for date value
-  else if (value instanceof Date) {
-    return true;
   }
   // Recursively evaluate
-  else if (typeof value === 'object' && !isNestedDatatype) {
+  else if (typeof value === 'object' && isNestedDatatype) {
     return Object.values(value).some((val) =>
       valueIsPresent(val, considerFalseTruthy, isNestedDatatype),
     );
