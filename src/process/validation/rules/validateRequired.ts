@@ -50,6 +50,7 @@ const valueIsPresent = (
   ) {
     return false;
   }
+
   // Evaluate for empty object
   else if (isEmptyObject(value)) {
     return false;
@@ -58,8 +59,12 @@ const valueIsPresent = (
   else if (Array.isArray(value) && value.length === 0) {
     return false;
   }
+  // Evaluate datetime value
+  else if (value instanceof Date) {
+    return !isNaN(value.getTime());
+  }
   // Recursively evaluate
-  else if (typeof value === 'object' && isNestedDatatype) {
+  else if (typeof value === 'object' && !isNestedDatatype) {
     return Object.values(value).some((val) =>
       valueIsPresent(val, considerFalseTruthy, isNestedDatatype),
     );

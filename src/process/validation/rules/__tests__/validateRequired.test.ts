@@ -10,6 +10,7 @@ import {
   simpleSelectBoxes,
   simpleRadioField,
   simpleCheckBoxField,
+  simpleDateTimeField,
 } from './fixtures/components';
 import { processOne } from 'processes/processOne';
 import { generateProcessorContext } from './fixtures/util';
@@ -30,6 +31,14 @@ describe('validateRequired', function () {
   it('Validating a simple component that is required and present in the data will return null', async function () {
     const component = { ...simpleTextField, validate: { required: true } };
     const data = { component: 'a simple value' };
+    const context = generateProcessorContext(component, data);
+    const result = await validateRequired(context);
+    expect(result).to.equal(null);
+  });
+
+  it('Validating a dateTime that is required and present in the data with a valid date object will return null', async function () {
+    const component = { ...simpleDateTimeField, validate: { required: true } };
+    const data = { component: new Date() };
     const context = generateProcessorContext(component, data);
     const result = await validateRequired(context);
     expect(result).to.equal(null);
